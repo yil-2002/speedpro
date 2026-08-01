@@ -1,0 +1,1142 @@
+Ajoyib! Keling, loyihani bosqichma-bosqich, papka-papka qilib tuzamiz. Barcha kodlar tayyor, faqat GitHub'ga joylash va serverni sozlash qoldi.
+🎯 UMUMIY KETMA-KETLIK
+1.  GitHub'da lokal fayllarni yaratish (barcha kodlar pastda berilgan)
+2.  GitHub'ga push qilish
+3.  Hetzner VPS'ga ulanish (Termius)
+4.  Serverda Docker va loyihani deploy qilish
+----
+📁 1-QADAM: ROOT PAPKA FAYLLARI
+Quyidagi fayllarni orbit-vpn/ papkangizning ichida yaratib, kodlarni copy-paste qiling.
+README.md
+🚀 ORBIT VPN - Telegram Mini App'da VPN Sotuv Tizimi
+Telegram ichida ishlaydigan to'liq VPN ekotizimi:
+•  📱 Telegram Mini App
+•  🤖 Telegram Bot (RUSCHA)
+•  ⚡ FastAPI Backend
+•  🗄️ PostgreSQL Database
+•  🔐 VLESS + REALITY Xray Integration
+•  💳 Telegram Stars Payment
+•  🎁 Referral & Gift System
+•  📊 Server Monitoring
+🛠️ O'rnatish
+git clone https://github.com/YOUR_USERNAME/orbit-vpn.git
+cd orbit-vpn
+cp .env.example .env
+nano .env
+docker-compose up -d
+docker-compose exec api alembic upgrade head
+
+📚 Dokumentatsiya
+•  O'rnatish qo'llanmasi docs/INSTALLATION.md
+•  API Dokumentatsiyasi docs/API.md
+•  Deployment Qadamlari docs/DEPLOYMENT.md
+📊 Tariflar
+Muddat	1 qurilma	5 qurilma
+1 kun	39₽/29⭐	70₽/52⭐
+1 oy	250₽/184⭐	450₽/331⭐
+12 oy	1400₽/1027⭐	2520₽/1849⭐
+✨ Xususiyatlari
+•  ✅ VLESS + REALITY protokoli
+•  ✅ 3 kunlik free trial
+•  ✅ Referral komissiyasi (10%)
+•  ✅ Server monitoring (CPU/RAM/Disk)
+•  ✅ Traffic limiting va kuzatuv
+•  ✅ Admin panel (/diyor buyrug'i)
+•  ✅ Gift codes va sovg'alar
+•  ✅ 24/7 Support sistema
+🔗 Muhim linklar
+•  Swagger API: http://localhost:8000/docs
+•  Bot: @your_bot_username
+•  Mini App: https://your-domain.com
+🗄️ Texnologiyalar
+•  Backend: FastAPI (Python 3.11)
+•  Database: PostgreSQL 15
+•  Frontend: React 18 + Vite
+•  Bot: aiogram 3.x
+•  VPN: Xray Core + VLESS + REALITY
+•  Container: Docker + Docker Compose
+•  Payment: Telegram Stars
+
+### `.gitignore`
+```gitignore
+# Environment
+.env
+.env.local
+.env.*.local
+.env.prod
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+ENV/
+env/
+.venv
+
+# Node
+node_modules/
+.npm
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+dist/
+.nuxt
+.cache
+.vuepress/dist
+.serverless/
+.fusebox/
+.dynamodb/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+.settings/
+
+# Docker
+.docker/
+*.dockerfile
+
+# Logs va temp
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+temp/
+tmp/
+*.tmp
+debug/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+pgdata/
+postgres_data/
+
+# Backup files
+*.bak
+*.backup
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride
+._*
+
+# Credentials va secrets
+.aws/
+.config/
+credentials
+secrets/
+
+.env.example
+# ============ BOT ============
+BOT_TOKEN=your_telegram_bot_token_here
+ADMIN_IDS=123456789,987654321
+
+# ============ DATABASE ============
+DATABASE_URL=postgresql+asyncpg://vpnuser:password@db:5432/vpnbot
+DB_PASSWORD=strong_password_here_change_it
+
+# ============ API ============
+API_HOST=0.0.0.0
+API_PORT=8000
+SECRET_KEY=your-super-secret-jwt-key-min-32-characters-long-here
+WEBAPP_BASE_URL=https://your-domain.com
+
+# ============ 3X-UI XRAY PANEL ============
+XRAY_PANEL_URL=http://77.42.77.60:2053
+XRAY_PANEL_USERNAME=admin
+XRAY_PANEL_PASSWORD=your_strong_password
+XRAY_PUBLIC_KEY=YOUR_REALITY_PUBLIC_KEY_HERE
+XRAY_SERVER_NAME=yahoo.com
+XRAY_SHORT_ID=YOUR_SHORT_ID_HERE
+XRAY_SERVER_DOMAIN=your-domain.com
+XRAY_INBOUND_ID=1
+
+# ============ TELEGRAM STARS ============
+STARS_PAYMENT_PROVIDER_TOKEN=your_stars_token_here
+
+# ============ MONITORING ============
+MONITOR_ADMIN_IDS=123456789
+MONITOR_BOT_TOKEN=same_as_bot_token
+
+# ============ REFERRAL ============
+REFERRAL_PERCENT=10
+
+# ============ FREE TRIAL ============
+FREE_TRIAL_DAYS=3
+FREE_TRIAL_TRAFFIC_GB=30
+FREE_TRIAL_MAX_DEVICES=1
+
+# ============ DEBUG ============
+DEBUG=False
+LOG_LEVEL=INFO
+
+docker-compose.yml
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: orbit-db
+    environment:
+      POSTGRES_USER: vpnuser
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+      POSTGRES_DB: vpnbot
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/backup:/backup
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U vpnuser -d vpnbot']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - orbit-network
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: orbit-api
+    ports:
+      - '8000:8000'
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./api/app:/app/app
+      - ./logs:/app/logs
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - orbit-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8000/docs']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  bot:
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    container_name: orbit-bot
+    env_file: .env
+    depends_on:
+      - api
+    volumes:
+      - ./bot/app:/app/app
+    networks:
+      - orbit-network
+    restart: unless-stopped
+
+  mini-app:
+    build:
+      context: ./mini-app
+      dockerfile: Dockerfile
+    container_name: orbit-mini-app
+    ports:
+      - '3000:80'
+    depends_on:
+      - api
+    networks:
+      - orbit-network
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:80']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  scheduler:
+    build:
+      context: ./scripts
+      dockerfile: Dockerfile
+    container_name: orbit-scheduler
+    env_file: .env
+    depends_on:
+      - db
+      - api
+    volumes:
+      - ./scripts:/app/scripts
+      - ./logs:/app/logs
+    networks:
+      - orbit-network
+    restart: unless-stopped
+
+networks:
+  orbit-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+    driver: local
+
+Makefile
+.PHONY: help build up down logs clean db-migrate db-reset test
+
+help:
+	@echo "ORBIT VPN - Makefile Commands"
+	@echo "=============================="
+	@echo "make build       - Docker images'ni yaratish"
+	@echo "make up          - Services'ni ishga tushirish"
+	@echo "make down        - Services'ni to'xtatish"
+	@echo "make logs        - Loglarni ko'rish"
+	@echo "make clean       - Konteyner va volumes'ni o'chirish"
+	@echo "make db-migrate  - Database migration qilish"
+	@echo "make db-reset    - Database'ni reset qilish"
+	@echo "make test        - Tests'ni ishga tushirish"
+
+build:
+	docker-compose build
+
+up:
+	docker-compose up -d
+	@echo "✅ Services ishga tushdi"
+
+down:
+	docker-compose down
+	@echo "✅ Services to'xtadi"
+
+logs:
+	docker-compose logs -f
+
+logs-api:
+	docker-compose logs -f api
+
+logs-bot:
+	docker-compose logs -f bot
+
+clean:
+	docker-compose down -v
+	rm -rf pgdata/
+	@echo "✅ Tozalandi"
+
+db-migrate:
+	docker-compose exec api alembic upgrade head
+
+db-reset:
+	docker-compose exec api alembic downgrade base
+	docker-compose exec api alembic upgrade head
+
+test:
+	docker-compose exec api pytest tests/
+
+lint:
+	docker-compose exec api flake8 app/
+	docker-compose exec api black app/
+
+format:
+	docker-compose exec api black app/
+
+shell-api:
+	docker-compose exec api bash
+
+shell-bot:
+	docker-compose exec bot bash
+
+shell-db:
+	docker-compose exec db psql -U vpnuser -d vpnbot
+
+restart:
+	docker-compose restart
+
+----
+📁 2-QADAM: docs/ PAPKASI
+Papka yaratish: mkdir docs
+docs/INSTALLATION.md
+# 🛠️ INSTALLATION GUIDE
+
+## Prerequisites
+
+- Docker va Docker Compose
+- Git
+- Python 3.11+ (opsional, Docker ichida ishladi)
+- Node.js 16+ (opsional, Docker ichida ishladi)
+
+## Step 1: Repository Klonlash
+
+```bash
+git clone https://github.com/YOUR_USERNAME/orbit-vpn.git
+cd orbit-vpn
+
+Step 2: Environment Sozlash
+cp .env.example .env
+
+Keyin .env faylni o'z ma'lumotlaringiz bilan to'ldiring:
+nano .env
+
+Muhim parametrlar:
+•  BOT_TOKEN - @BotFather dan olingan token
+•  ADMIN_IDS - Sizning Telegram ID
+•  SECRET_KEY - Kuchli parol (32+ belgili)
+•  XRAY_PANEL_URL - Xray panel's URL
+•  XRAY_PANEL_PASSWORD - Xray parol
+Step 3: Xray Panel O'rnatish (Opsional)
+Agar alohida Xray server'ingiz bo'lmasa:
+# Hetzner server'iga SSH orqali ulanish
+ssh root@77.42.77.60
+
+# 3X-UI o'rnatish
+bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)
+
+# Panelga kirish: https://YOUR_SERVER_IP:2053
+# Login: admin
+# Parolni o'zgartiring!
+
+Step 4: Docker'da Ishga Tushirish
+# Docker images'ni yaratish
+docker-compose build
+
+# Services'ni ishga tushirish
+docker-compose up -d
+
+# Status tekshirish
+docker-compose ps
+
+Step 5: Database Migration
+# Database jadvallarini yaratish
+docker-compose exec api alembic upgrade head
+
+# Status ko'rish
+docker-compose exec db psql -U vpnuser -d vpnbot -c "\dt"
+
+Step 6: Bot Sozlash
+Bot'ni WebApp bilan sozlash (@BotFather'da):
+/setmenubutton
+@your_bot_username
+Telegram Mini App
+https://your-domain.com
+
+Step 7: Test Qilish
+# API Swagger: http://localhost:8000/docs
+# Mini App: http://localhost:3000
+# Bot: @your_bot_username yozib /start bosing
+
+🔧 Amaliy Bugunlik Komandalar
+# Loglarni ko'rish
+docker-compose logs -f
+
+# Konteyner shell'iga kirish
+docker-compose exec api bash
+
+# Database'ga kirish
+docker-compose exec db psql -U vpnuser -d vpnbot
+
+# Services'ni restart qilish
+docker-compose restart
+
+# Hammasini tozalash
+docker-compose down -v
+
+⚠️ Muammolar
+Port ishlatilmoqda
+# Port'ni o'zgarting .env'da
+API_PORT=8001
+
+Database connection xatosi
+# DB healthy bo'lishini kutish
+docker-compose up -d db
+sleep 10
+docker-compose up -d api
+
+Permission xatosi
+# Host'da papka yaratish
+mkdir -p pgdata logs
+chmod 777 pgdata logs
+
+🎉 Tayyor!
+Barcha sozlamalar to'liq bo'lsa, system ishga tushishga tayyor!
+
+### `docs/API.md`
+```markdown
+# 📚 API DOKUMENTATSIYASI
+
+## Base URL
+
+http://localhost:8000/api/v1
+
+## Authentication
+
+Hamma endpoint'lar JWT token talab qiladi:
+
+```bash
+Authorization: Bearer {token}
+
+Login
+POST /auth/telegram
+Mini App's initData orqali login qilish
+Request:
+{
+  "init_data": "user=%7B%22id%22..."
+}
+
+Response:
+{
+  "token": "eyJhbGc...",
+  "user": {
+    "id": 123456789,
+    "username": "username",
+    "first_name": "First",
+    "balance_rub": 0,
+    "referral_code": "123456789_abc123"
+  }
+}
+
+----
+USERS API
+Get Profile
+GET /me
+Joriy foydalanuvchining ma'lumotini olish
+Response:
+{
+  "id": 123456789,
+  "username": "username",
+  "first_name": "First",
+  "balance_rub": 1500.50,
+  "balance_stars": 100,
+  "referral_code": "ref_code123",
+  "created_at": "2024-01-01T12:00:00"
+}
+
+----
+SUBSCRIPTIONS API
+Get All Tariffs
+GET /tariffs
+Barcha tariflarni olish
+Response:
+{
+  "tariffs": [
+    {
+      "id": "1day",
+      "name": "1 kun",
+      "days": 1,
+      "price_rub": 39,
+      "price_stars": 29,
+      "devices": [1, 2, 3, 4, 5]
+    },
+    {
+      "id": "1month",
+      "name": "1 oy",
+      "days": 30,
+      "price_rub": 250,
+      "price_stars": 184,
+      "devices": [1, 2, 3, 4, 5]
+    }
+  ]
+}
+
+Get Active Subscription
+GET /me/subscription
+Joriy aktiv subscription
+Response:
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "active",
+  "plan_type": "1month",
+  "devices_count": 2,
+  "traffic_used_gb": 15.5,
+  "traffic_limit_gb": 100,
+  "expires_at": "2024-02-01T12:00:00",
+  "config_link": "vless://uuid@domain:443?..."
+}
+
+Buy Subscription
+POST /me/subscription
+Yangi subscription sotib olish
+Request:
+{
+  "plan_type": "1month",
+  "devices_count": 2,
+  "payment_method": "telegram_stars"
+}
+
+Response:
+{
+  "subscription_id": "550e8400-e29b-41d4-a716-446655440000",
+  "amount_rub": 300,
+  "amount_stars": 221,
+  "devices": 2,
+  "days": 30
+}
+
+----
+PAYMENTS API
+Create Stars Payment
+POST /payments/stars
+Telegram Stars orqali to'lov invoice yaratish
+Request:
+{
+  "subscription_id": "550e8400-e29b-41d4-a716-446655440000"
+}
+
+Response:
+{
+  "invoice_url": "/pay/payment_id",
+  "amount": 221,
+  "currency": "XTR"
+}
+
+Payment Success Webhook
+POST /payments/stars/success
+To'lov muvaffaqiyatli bo'lganda webhook
+Request:
+{
+  "payment_id": "payment_uuid",
+  "telegram_payment_charge_id": "charge_id_123"
+}
+
+----
+REFERRALS API
+Get Referrals
+GET /referrals
+Referral statistikasi
+Response:
+{
+  "total_referrals": 5,
+  "total_commission": 1500.00,
+  "pending_commission": 300.00,
+  "referrals": [
+    {
+      "id": "ref_id",
+      "referred_user": "username",
+      "commission": 150.00,
+      "status": "paid"
+    }
+  ]
+}
+
+Get Referral Link
+GET /referrals/link
+O'z referral link'ini olish
+Response:
+{
+  "link": "https://t.me/bot?start=ref_code123"
+}
+
+----
+GIFTS API
+Create Gift Code
+POST /gifts
+Yangi sovg'a kodi yaratish (Admin)
+Request:
+{
+  "plan_type": "1month",
+  "devices_count": 1,
+  "quantity": 10
+}
+
+Response:
+{
+  "codes": [
+    "GIFT_123456",
+    "GIFT_123457"
+  ]
+}
+
+Redeem Gift Code
+POST /gifts/redeem
+Sovg'a kodini aktivatsiya qilish
+Request:
+{
+  "code": "GIFT_123456"
+}
+
+Response:
+{
+  "status": "success",
+  "message": "Code activated",
+  "subscription": {
+    "plan_type": "1month",
+    "devices_count": 1,
+    "expires_at": "2024-02-01"
+  }
+}
+
+----
+VPN CONFIG API
+Get VPN Configs
+GET /vpn/config
+Hamma VPN konfiglarni olish
+Response:
+{
+  "configs": [
+    {
+      "id": "config_uuid",
+      "email": "user_123@vpn",
+      "config_link": "vless://uuid@domain:443?...",
+      "server": "domain.com",
+      "status": "active",
+      "traffic_used": 15.5,
+      "traffic_limit": 100,
+      "created_at": "2024-01-01T12:00:00"
+    }
+  ]
+}
+
+Get VPN Config QR
+GET /vpn/config/{id}/qr
+QR code'ni SVG formatida olish
+Response:
+SVG QR code image
+
+Delete VPN Config
+DELETE /vpn/config/{id}
+Konfigni o'chirish
+Response:
+{
+  "status": "success"
+}
+
+----
+SUPPORT API
+Create Support Ticket
+POST /support
+Yangi support tiketini yaratish
+Request:
+{
+  "subject": "Ulanishda muammo",
+  "message": "VPN bilan ulanib bo'lolmayapti"
+}
+
+Response:
+{
+  "ticket_id": "ticket_uuid",
+  "status": "open",
+  "created_at": "2024-01-01T12:00:00"
+}
+
+Get Support Tickets
+GET /support
+O'z tiketlarni olish
+Response:
+{
+  "tickets": [
+    {
+      "id": "ticket_uuid",
+      "subject": "Ulanishda muammo",
+      "message": "VPN bilan ulanib bo'lolmayapti",
+      "status": "open",
+      "admin_reply": null,
+      "created_at": "2024-01-01T12:00:00"
+    }
+  ]
+}
+
+----
+ADMIN API
+Get Server Stats
+GET /server/stats
+Server statistikasi (Admin only)
+Response:
+{
+  "cpu_percent": 45.5,
+  "ram_percent": 62.3,
+  "ram_used_mb": 4096,
+  "ram_total_mb": 8192,
+  "disk_percent": 35.2,
+  "active_connections": 150,
+  "xray_status": true,
+  "created_at": "2024-01-01T12:00:00"
+}
+
+Get Traffic Stats
+GET /server/traffic
+Traffic statistikasi (Admin only)
+Response:
+{
+  "daily": {
+    "upload_gb": 100.5,
+    "download_gb": 450.2
+  },
+  "monthly": {
+    "upload_gb": 3000.5,
+    "download_gb": 15000.2
+  },
+  "total_users": 150,
+  "active_subscriptions": 120
+}
+
+----
+ERROR RESPONSES
+400 Bad Request
+{
+  "detail": "Invalid plan type"
+}
+
+401 Unauthorized
+{
+  "detail": "Invalid token"
+}
+
+404 Not Found
+{
+  "detail": "Subscription not found"
+}
+
+500 Server Error
+{
+  "detail": "Internal server error"
+}
+
+----
+RATE LIMITING
+API rate limit: 1000 requests/hour per IP
+Headers:
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1672531200
+
+
+### `docs/DEPLOYMENT.md`
+```markdown
+# 🚀 DEPLOYMENT GUIDE - PRODUCTION
+
+## Server Tayyorlash (Hetzner CX23)
+
+### 1. SSH Ulanish
+```bash
+ssh root@YOUR_SERVER_IP
+
+2. System Yangilash
+apt update && apt upgrade -y
+apt install -y curl wget git nano htop
+
+3. Docker O'rnatish
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
+# Docker'ni sozlash
+systemctl enable docker
+systemctl start docker
+
+4. Docker Compose O'rnatish
+curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+
+5. Nginx O'rnatish
+apt install -y nginx certbot python3-certbot-nginx
+
+systemctl enable nginx
+systemctl start nginx
+
+6. SSL Sertifikat
+certbot --nginx -d your-domain.com
+
+# Auto-renew
+certbot renew --dry-run
+
+7. Repository Klonlash
+cd /opt
+git clone https://github.com/YOUR_USERNAME/orbit-vpn.git
+cd orbit-vpn
+
+# Production .env
+cp .env.example .env
+nano .env
+
+8. Docker Ishga Tushirish
+docker-compose -f docker-compose.yml up -d
+
+# Status tekshirish
+docker-compose ps
+
+# Loglarni ko'rish
+docker-compose logs -f api
+
+9. Database Migration
+docker-compose exec api alembic upgrade head
+
+10. Nginx Sozlash
+cat > /etc/nginx/sites-available/orbit-vpn << 'EOF'
+upstream api {
+    server localhost:8000;
+}
+
+upstream mini_app {
+    server localhost:3000;
+}
+
+server {
+    listen 80;
+    server_name your-domain.com;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name your-domain.com;
+
+    ssl_certificate /etc/letsencrypt/live/your-domain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/your-domain.com/privkey.pem;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    client_max_body_size 100M;
+
+    # API
+    location /api/ {
+        proxy_pass http://api;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Mini App
+    location / {
+        proxy_pass http://mini_app;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+EOF
+
+ln -s /etc/nginx/sites-available/orbit-vpn /etc/nginx/sites-enabled/
+nginx -t
+systemctl restart nginx
+
+Cron Jobs Sozlash
+# Crontab o'chirish
+crontab -e
+
+# Quyidagi qatorlarni qo'shish:
+
+# Trafikni har soatda sinxronizasiya
+0 * * * * cd /opt/orbit-vpn && docker-compose exec -T api python scripts/traffic_sync.py
+
+# Tugagan subscription'larni har kuni 00:00'da o'chirish
+0 0 * * * cd /opt/orbit-vpn && docker-compose exec -T api python scripts/check_expiry.py
+
+# Speed test har 6 soatda
+0 */6 * * * cd /opt/orbit-vpn && docker-compose exec -T api python scripts/speed_test.py
+
+# Database backup har kuni 01:00'da
+0 1 * * * cd /opt/orbit-vpn && bash scripts/backup_db.sh
+
+Monitoring
+Logs Tekshirish
+cd /opt/orbit-vpn
+
+# API loglar
+docker-compose logs -f api
+
+# Bot loglar
+docker-compose logs -f bot
+
+# Database loglar
+docker-compose logs -f db
+
+Health Check
+# API status
+curl https://your-domain.com/api/v1/health
+
+# Mini App
+curl https://your-domain.com/
+
+# Database
+docker-compose exec db pg_isready -U vpnuser -d vpnbot
+
+Backup va Recovery
+Database Backup
+docker-compose exec db pg_dump -U vpnuser -d vpnbot > backup.sql
+
+Database Restore
+docker-compose exec -T db psql -U vpnuser -d vpnbot < backup.sql
+
+Volume Backup
+docker run --rm -v orbit-vpn_pgdata:/data -v $(pwd):/backup alpine tar czf /backup/pgdata.tar.gz /data
+
+Updates
+Pull Latest Changes
+cd /opt/orbit-vpn
+git pull origin main
+
+# Images qayta build
+docker-compose build
+
+# Restart services
+docker-compose up -d
+
+# Database migration (agar kerak bo'lsa)
+docker-compose exec api alembic upgrade head
+
+Xavfsizlik
+UFW Firewall
+ufw allow 22/tcp
+ufw allow 80/tcp
+ufw allow 443/tcp
+ufw enable
+
+SSH Key Setup
+# Key generatsiya (lokal)
+ssh-keygen -t rsa -b 4096
+
+# Public key server'ga copy
+ssh-copy-id root@YOUR_SERVER_IP
+
+Regular Updates
+# Cron job OS updates uchun
+apt install unattended-upgrades
+dpkg-reconfigure unattended-upgrades
+
+Troubleshooting
+Port Conflicts
+# Port'dan foydalanayotgan process'ni topish
+lsof -i :8000
+lsof -i :3000
+
+Database Connection Error
+# Database status
+docker-compose logs -f db
+
+# Restart
+docker-compose restart db
+
+Certificate Expired
+certbot renew --force-renewal
+systemctl reload nginx
+
+Performance Optimization
+Docker Resource Limits
+services:
+  api:
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+
+Database Tuning
+-- shared_buffers
+ALTER SYSTEM SET shared_buffers='256MB';
+
+-- effective_cache_size
+ALTER SYSTEM SET effective_cache_size='1GB';
+
+-- work_mem
+ALTER SYSTEM SET work_mem='16MB';
+
+SELECT pg_reload_conf();
+
+
+---
+
+## 📁 3-QADAM: `api/` PAPKASI (Backend)
+
+Papkalar:
+```bash
+mkdir -p api/app/routers api/app/services api/alembic/versions
+
+api/Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# System dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    postgresql-client \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy app
+COPY . .
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8000/docs || exit 1
+
+# Run app
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+api/requirements.txt
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+sqlalchemy==2.0.35
+asyncpg==0.29.0
+alembic==1.13.2
+pydantic==2.9.2
+pydantic-settings==2.5.2
+python-jose[cryptography]==3.3.0
+python-multipart==0.0.9
+httpx==0.27.2
+aiofiles==24.1.0
+psutil==5.9.6
+
+api/alembic.ini
+[alembic]
+script_location = alembic
+prepend_sys_path = .
+sqlalchemy.url = driver://user:pass@localhost/dbname
+
+[loggers]
+keys = root,sqlalchemy,alembic
+
+[handlers]
+keys = console
+
+[formatters
+
+
+
